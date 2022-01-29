@@ -26,6 +26,7 @@ class MapLandmassGenerator(val ruleset: Ruleset, val randomness: MapGenerationRa
             MapType.fourCorners -> createFourCorners(tileMap)
             MapType.perlin -> createPerlin(tileMap)
             MapType.archipelago -> createArchipelago(tileMap)
+            MapType.earth -> createEarth(tileMap)
             MapType.default -> generateLandCellularAutomata(tileMap)
         }
     }
@@ -104,6 +105,14 @@ class MapLandmassGenerator(val ruleset: Ruleset, val randomness: MapGenerationRa
             var elevation = randomness.getPerlinNoise(tile, elevationSeed)
             elevation = (elevation + getFourCornersTransform(tile, tileMap)) / 2.0
             spawnLandOrWater(tile, elevation, tileMap.mapParameters.waterThreshold.toDouble())
+        }
+    }
+
+    private fun createEarth(tileMap: TileMap) {
+        val elevationSeed = randomness.RNG.nextInt().toDouble()
+        for (tile in tileMap.values) {
+            val elevation = getRidgedPerlinNoise(tile, elevationSeed)
+            spawnLandOrWater(tile, elevation, 0.25 + tileMap.mapParameters.waterThreshold.toDouble())
         }
     }
 

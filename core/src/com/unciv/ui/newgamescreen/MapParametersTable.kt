@@ -79,6 +79,7 @@ class MapParametersTable(
             MapType.perlin,
             MapType.archipelago,
             MapType.innerSea,
+            MapType.earth,
             if (isEmptyMapAllowed) MapType.empty else null
         )
 
